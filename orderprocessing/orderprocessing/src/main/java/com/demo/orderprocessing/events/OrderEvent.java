@@ -1,6 +1,9 @@
 package com.demo.orderprocessing.events;
 
 import com.demo.orderprocessing.entity.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -9,6 +12,9 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @ToString
+@JsonSerialize
+@JsonDeserialize
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderEvent {
     private Long orderId;
     private String product;

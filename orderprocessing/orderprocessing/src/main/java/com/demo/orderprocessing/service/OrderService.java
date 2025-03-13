@@ -15,12 +15,12 @@ public class OrderService {
 
 
     private final OrderRepository orderRepository;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, OrderEvent> kafkaTemplate;
 
     private static final String ORDER_TOPIC = "order-created";
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, KafkaTemplate<String, String> kafkaTemplate) {
+    public OrderService(OrderRepository orderRepository, KafkaTemplate<String, OrderEvent> kafkaTemplate) {
         this.orderRepository = orderRepository;
         this.kafkaTemplate = kafkaTemplate;
     }
@@ -34,7 +34,7 @@ public class OrderService {
         OrderEvent orderEvent = new OrderEvent(savedOrder.getId(), savedOrder.getProduct(),
                 savedOrder.getQuantity(), savedOrder.getPrice(), savedOrder.getStatus().toString());
 
-        kafkaTemplate.send(ORDER_TOPIC, orderEvent.toString());
+        kafkaTemplate.send(ORDER_TOPIC, orderEvent);
 
         return savedOrder;
     }
